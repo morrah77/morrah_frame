@@ -1,0 +1,76 @@
+Фреймворк MorrahFrame, version 1.0.0
+made by Helen Lazar,
+webdepo@list.ru
+
+Пути для проверки:
+/ - подключается обработчик по умолчанию, выполняется метод по умолчанию
+/main - подключается обработчик main, выполняется метод по умолчанию
+/another - подключается обработчик another, выполняется метод по умолчанию
+/main/param/was/been?IND=0&got=88 - подключается обработчик main, выполняется метод param
+/another/param/been?IND=1&got=88 - подключается обработчик another, выполняется метод param
+/something - несуществующий обработчик, ошибка 404
+
+RU
+Простейший фреймворк, принимающий GET и POST запросы и, в зависимости от настроек, выбирающий обработчик запроса по URL.
+Настройки:
+$conf = array(
+	'controllerIndex' => 0,/*какой сегмент url определяет обработчик, which segment of url defines controller*/
+	'methodIndex' => 1 /*какой сегмент url определяет метод обработчика, which segment of url defines method*/
+);
+Далее следуют настройки путей, метода и контроллера по умолчанию
+define(APP_DIR,'app');/*каталог файлов приложения, application scripts directory*/
+define(SYS_DIR,'sys');/*каталог файлов системы, system scripts directory*/
+define(APP_INCLUDE_DIR,ROOT_DIR.'/'.APP_DIR.'/include');/*каталог подключаемых файлов приложения, application includes directory*/
+define(APP_CONTROLLERS_DIR,ROOT_DIR.'/'.APP_DIR.'/controller');/*каталог обработчиков (контроллеров) приложения, application controllers directory*/
+define(SYS_INCLUDE_DIR,ROOT_DIR.'/'.SYS_DIR.'/include');/*каталог файлов ядра системы, system core scripts directory*/
+define(APP_DEFAULT_CONTROLLER,'main');
+define(APP_DEFAULT_METHOD,'index');
+define(HOST,$_SERVER['HTTP_HOST']);
+define(PAGE_404,APP_DIR.'/404.php')
+
+В основе работы лежит Singletone класс Application, единственный существующий экземпляр которого хранит все основные переменные и поддерживает основные необходимые web-приложению методы.
+Системные классы загружаются автоматически и становятся переменными (членами) экземпляра класса Application. Для данной версии доступны классы url и request.
+
+Классы приложения загружаются автоматически, но не становятся членами экземпляра класса Application. Для данной версии доступен класс controller, предоставляющий базовые функции обработчика приложения.
+Из обработчиков приложения автоматически подключается только тот, что требуется для обработки запроса. Обработчики приложения реализованы путем наследования основного класса controller, загруженного автоматически.
+
+Расширение фреймворка возможно путем добавления новых классов ядра (например, для авторизации, работы с сессиями и базой данных) и приложения (например, базовые классы модели и вида для реализации MVC-архитектуры), а также новых обработчиков.
+
+Соглашения
+Все классы ядра хранятся в директории SYS_INCLUDE_DIR (см. /conf/conf.php), по умолчанию /sys/include, каждый класс в отдельном файле. Для автоматического создания классов ядра имена классов должны совпадать с именами файлов (имена регистрозависимы!), конструкторы классов должны быть без параметров или с параметрами по умолчанию
+
+Классы приложения (обработчики зипросов) хранятся в директории APP_CONTROLLERS_DIR (см. /conf/conf.php), по умолчанию /app/controller и подключаются в зависимости от запроса. Имена классов должны совпадать с именами файлов (имена регистрозависимы!)
+
+====================================
+
+EN
+Simplest framework receiving GET and POST requests and selecting request conroller depending on the settings and URL.
+Settings:
+$conf = array(
+	'controllerIndex' => 0,/*какой сегмент url определяет обработчик, which segment of url defines controller*/
+	'methodIndex' => 1 /*какой сегмент url определяет метод обработчика, which segment of url defines method*/
+);
+Далее следуют настройки путей, метода и контроллера по умолчанию
+define(APP_DIR,'app');/*каталог файлов приложения, application scripts directory*/
+define(SYS_DIR,'sys');/*каталог файлов системы, system scripts directory*/
+define(APP_INCLUDE_DIR,ROOT_DIR.'/'.APP_DIR.'/include');/*каталог подключаемых файлов приложения, application includes directory*/
+define(APP_CONTROLLERS_DIR,ROOT_DIR.'/'.APP_DIR.'/controller');/*каталог обработчиков (контроллеров) приложения, application controllers directory*/
+define(SYS_INCLUDE_DIR,ROOT_DIR.'/'.SYS_DIR.'/include');/*каталог файлов ядра системы, system core scripts directory*/
+define(APP_DEFAULT_CONTROLLER,'main');
+define(APP_DEFAULT_METHOD,'index');
+define(HOST,$_SERVER['HTTP_HOST']);
+define(PAGE_404,APP_DIR.'/404.php')
+
+
+The heart of framework is Singletone class Application, having only single instance which stores all general variables and supports main methods are necessary for Web application.
+System classes are auto-loading, they automatically become members of Application class instance. For this version classes url and request are available.
+
+Классы приложения загружаются автоматически, но не становятся членами экземпляра класса Application. Для данной версии доступен класс controller, предоставляющий базовые функции обработчика приложения.
+Из обработчиков приложения автоматически подключается только тот, что требуется для обработки запроса. Обработчики приложения реализованы путем наследования основного класса controller, загруженного автоматически.
+
+Расширение фреймворка возможно путем добавления новых классов ядра (например, для авторизации, работы с сессиями и базой данных) и приложения (например, базовые классы модели и вида для реализации MVC-архитектуры), а также новых обработчиков.
+
+Соглашения
+Все классы ядра хранятся в директории SYS_INCLUDE_DIR (см. /conf/conf.php), по умолчанию /sys/include, каждый класс в отдельном файле. Для автоматического создания классов ядра имена классов должны совпадать с именами файлов (имена регистрозависимы!), конструкторы классов должны быть без параметров или с параметрами по умолчанию
+
+Классы приложения (обработчики зипросов) хранятся в директории APP_CONTROLLERS_DIR (см. /conf/conf.php), по умолчанию /app/controller и подключаются в зависимости от запроса. Имена классов должны совпадать с именами файлов (имена регистрозависимы!)

@@ -1,0 +1,8 @@
+AddDefaultCharset utf-8
+
+RewriteEngine On
+RewriteBase /
+RewriteRule ^(?:app|sys)\b.* index.php/$0 [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule .* index.php/$0 [PT]
